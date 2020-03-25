@@ -1,0 +1,20 @@
+.sidebar {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.root {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+
+  .sidebar {
+    width: 8%;
+  }
+
+  .main {
+    width: 92%;
+  }
+}
