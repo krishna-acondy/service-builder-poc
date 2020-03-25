@@ -14,4 +14,4 @@ const SidebarItem = ({ icon, link, text }) => {
   );
 };
 
-export default SidebarItem;
+export default React.memo(SidebarItem);
