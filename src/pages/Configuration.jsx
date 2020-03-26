@@ -1,65 +1,116 @@
-import React, { useContext } from "react";
-import { Header, Input, Segment, Select } from "semantic-ui-react";
+import React, { useContext, useState } from "react";
+import { Header, Segment, Button, Form, Message } from "semantic-ui-react";
 import { AppContext } from "../context/appContext";
 import "./Configuration.scss";
 
 const Configuration = () => {
   const { masterJson, setMasterJson } = useContext(AppContext);
+  const [serverType, setServerType] = useState(
+    masterJson && masterJson.sasJsConfig
+      ? masterJson.sasJsConfig.serverType
+      : null
+  );
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+
   const appConfig =
-    masterJson && masterJson.appconfig ? masterJson.appconfig : {};
+    masterJson && masterJson.appConfig ? masterJson.appConfig : {};
   const sasJsConfig =
-    masterJson && masterJson.sasjsconfig ? masterJson.sasjsconfig : {};
+    masterJson && masterJson.sasJsConfig ? masterJson.sasJsConfig : {};
+
+  const saveForm = event => {
+    event.preventDefault();
+    const appConfigFields = ["author", "name", "description"];
+    const sasJsConfigFields = [
+      "serverUrl",
+      "appLoc",
+      "pathSAS9",
+      "pathSASViya"
+    ];
+
+    const appConfig = {};
+    const sasJsConfig = {};
+    appConfigFields.forEach(field => {
+      appConfig[field] = event.target.elements[field].value;
+    });
+    sasJsConfigFields.forEach(field => {
+      sasJsConfig[field] = event.target.elements[field].value;
+    });
+    sasJsConfig.serverType = serverType;
+    setMasterJson({ ...masterJson, appConfig, sasJsConfig });
+    setShowSuccessMessage(true);
+  };
+
   return (
     <div className="configuration-container">
       <Header as="h1">Configuration</Header>
-      <form className="config-form">
+      {showSuccessMessage && (
+        <Message positive>
+          <Message.Header>
+            Success! Your configuration has now been updated.
+          </Message.Header>
+          <p>
+            You can export it as a JSON file from the{" "}
+            <strong>Import / Export</strong> tab.
+          </p>
+        </Message>
+      )}
+      <Form className="config-form" onSubmit={saveForm}>
         <Segment size="huge" raised>
           <Header as="h3">App Configuration</Header>
-          <div className="row">
-            <span>Author</span>
-            <Input placeholder="Author" value={appConfig.author} />
-          </div>
-          <div className="row">
-            <span>Name</span>
-            <Input placeholder="Name" value={appConfig.name} />
-          </div>
-          <div className="row">
-            <span>Description</span>
-            <Input placeholder="Description" value={appConfig.desc} />
-          </div>
-        </Segment>
-        <Segment size="huge" raised>
+          <Form.Group widths="equal">
+            <Form.Field>
+              <label>Author</label>
+              <input
+                name="author"
+                placeholder="Author"
+                defaultValue={appConfig.author}
+              />
+            </Form.Field>
+            <Form.Field>
+              <label>Name</label>
+              <input
+                name="name"
+                placeholder="Name"
+                defaultValue={appConfig.name}
+              />
+            </Form.Field>
+            <Form.Field>
+              <label>Description</label>
+              <input
+                name="description"
+                placeholder="Description"
+                defaultValue={appConfig.description}
+              />
+            </Form.Field>
+          </Form.Group>
           <Header as="h3">
             <code>SASjs</code> Configuration
           </Header>
-          <div className="row">
-            <span>Server URL</span>
-            <Input placeholder="Server URL" value={sasJsConfig.serverUrl} />
-          </div>
-          <div className="row">
-            <span>Server Port</span>
-            <Input placeholder="Server Port" value={sasJsConfig.port} />
-          </div>
-          <div className="row">
-            <span>App Location</span>
-            <Input placeholder="App Location" value={sasJsConfig.appLoc} />
-          </div>
-          <div className="row">
-            <span>SAS9 Path</span>
-            <Input placeholder="SAS9 Path" value={sasJsConfig.pathSAS9} />
-          </div>
-          <div className="row">
-            <span>SAS Viya Path</span>
-            <Input
-              placeholder="SAS Viya Path"
-              value={sasJsConfig.pathSASViya}
+          <Form.Field>
+            <label>Server URL</label>
+            <input
+              name="serverUrl"
+              placeholder="Description"
+              defaultValue={sasJsConfig.serverUrl}
             />
-          </div>
-          <div className="row">
-            <span>Server Type</span>
-            <Select
-              value={sasJsConfig.serverType}
+          </Form.Field>
+          <Form.Field>
+            <label>App Location</label>
+            <input
+              name="appLoc"
+              placeholder="App Location"
+              defaultValue={sasJsConfig.appLoc}
+            />
+          </Form.Field>
+          <Form.Field>
+            <label>Server Type</label>
+            <Form.Select
+              name="serverType"
               placeholder="Server type"
+              onChange={(_, { value }) => {
+                setServerType(value);
+              }}
+              defaultValue={sasJsConfig.serverType}
               options={[
                 {
                   key: "SAS9",
@@ -73,9 +124,28 @@ const Configuration = () => {
                 }
               ]}
             />
-          </div>
+          </Form.Field>
+          <Form.Field>
+            <label>SAS9 Path</label>
+            <input
+              name="pathSAS9"
+              placeholder="SAS9 Path"
+              defaultValue={sasJsConfig.pathSAS9}
+            />
+          </Form.Field>
+          <Form.Field>
+            <label>SAS Viya Path</label>
+            <input
+              name="pathSASViya"
+              placeholder="SAS Viya Path"
+              defaultValue={sasJsConfig.pathSASViya}
+            />
+          </Form.Field>
         </Segment>
-      </form>
+        <Button primary type="submit">
+          Save configuration
+        </Button>
+      </Form>
     </div>
   );
 };
