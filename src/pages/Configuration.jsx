@@ -12,15 +12,15 @@ const Configuration = () => {
   return (
     <div className="configuration-container">
       <Header as="h1">Configuration</Header>
-      <form>
-        <Segment size="huge">
+      <form className="config-form">
+        <Segment size="huge" raised>
           <Header as="h3">App Configuration</Header>
           <div className="row">
             <span>Author</span>
             <Input placeholder="Author" value={appConfig.author} />
           </div>
           <div className="row">
-            <span>Author</span>
+            <span>Name</span>
             <Input placeholder="Name" value={appConfig.name} />
           </div>
           <div className="row">
@@ -28,7 +28,7 @@ const Configuration = () => {
             <Input placeholder="Description" value={appConfig.desc} />
           </div>
         </Segment>
-        <Segment size="huge">
+        <Segment size="huge" raised>
           <Header as="h3">
             <code>SASjs</code> Configuration
           </Header>
@@ -58,10 +58,19 @@ const Configuration = () => {
           <div className="row">
             <span>Server Type</span>
             <Select
+              value={sasJsConfig.serverType}
               placeholder="Server type"
               options={[
-                { key: "SAS9", value: "SAS9", text: "SAS9" },
-                { key: "SASVIYA", value: "SASVIYA", text: "SASVIYA" }
+                {
+                  key: "SAS9",
+                  value: "SAS9",
+                  text: "SAS9"
+                },
+                {
+                  key: "SASVIYA",
+                  value: "SASVIYA",
+                  text: "SASVIYA"
+                }
               ]}
             />
           </div>

@@ -55,8 +55,8 @@ const ImportExport = () => {
         <Message positive>
           <Message.Header>Success! Your file has now been read.</Message.Header>
           <p>
-            Click the 'Import JSON' button to load the configuration and
-            services.
+            Click the <strong>Import JSON</strong> button to load the
+            configuration and services.
           </p>
         </Message>
       )}
