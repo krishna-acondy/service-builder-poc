@@ -1,14 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Button, Header, Message } from "semantic-ui-react";
 
 import "./ImportExport.scss";
 import FileUpload from "../components/FileUpload";
+import { AppContext } from "../context/appContext";
 
 const ImportExport = () => {
+  const { setMasterJson } = useContext(AppContext);
   const [json, setJson] = useState(null);
   const [isError, setIsError] = useState(false);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
-  const importJson = () => {};
+  const importJson = () => {
+    setShowSuccessMessage(false);
+    setMasterJson(json);
+  };
   const onFileChanged = event => {
     setIsError(false);
     let file = event.target.files[0];
@@ -28,6 +34,7 @@ const ImportExport = () => {
         }
         if (json) {
           setJson(json);
+          setShowSuccessMessage(true);
         }
       };
     })();
@@ -44,7 +51,7 @@ const ImportExport = () => {
           <p>Please check the file and try again.</p>
         </Message>
       )}
-      {!isError && json && (
+      {showSuccessMessage && (
         <Message positive>
           <Message.Header>Success! Your file has now been read.</Message.Header>
           <p>
