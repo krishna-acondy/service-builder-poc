@@ -1,0 +1,12 @@
+.configuration-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+  }
+}
