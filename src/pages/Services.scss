@@ -15,32 +15,17 @@
       width: 25%;
       height: 100%;
 
+      h3 {
+        display: inline-block;
+        padding-right: 4px;
+      }
+
+      i.add {
+        cursor: pointer;
+      }
+
       .folder-list {
         margin-top: 8px;
-
-        .folder-container {
-          display: flex;
-          align-items: center;
-        }
-
-        .folder {
-          cursor: pointer;
-          padding: 8px;
-          &:hover {
-            text-decoration: underline;
-          }
-        }
-
-        i {
-          padding-top: 4px;
-          cursor: pointer;
-        }
-
-        .folder-selected {
-          color: #ffffff;
-          background-color: #4e4e4e;
-          border-radius: 5px;
-        }
       }
     }
 
@@ -59,5 +44,19 @@
         padding: 8px;
       }
     }
+  }
+}
+
+.new-folder-form {
+  padding: 16px;
+
+  .actions {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .naming-conventions {
+    font-size: 1.1em;
+    padding: 16px 0;
   }
 }
